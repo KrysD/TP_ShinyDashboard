@@ -1,0 +1,6 @@
+.Rproj.user/
+*.Rproj
+*.Rmd
+shinyDashboard_cache/
+.Rproj.user
+

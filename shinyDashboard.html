@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>TP R-shinyDashboard</title>
+
+<script src="libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="libs/navigation-1.1/tabsets.js"></script>
+<script src="libs/navigation-1.1/codefolding.js"></script>
+<link href="libs/highlightjs-1.1/default.css" rel="stylesheet" />
+<script src="libs/highlightjs-1.1/highlight.js"></script>
+<link href="libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="libs/pagedtable-1.1/js/pagedtable.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="www\style.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">TP R-<a href="https://rstudio.github.io/shinydashboard/">shinyDashboard</a></h1>
+
+</div>
+
+
+<div id="installer-les-packages" class="section level2">
+<h2>Installer les packages</h2>
+<p>Afin de faciliter la poursuite du TD lancer le code ci-dessous afin de charger ou installer les packages.</p>
+<pre class="r"><code># ----- Load/Install Packages
+packages&lt;-c(&quot;shiny&quot;,&quot;shinydashboard&quot;)
+new.packages &lt;- packages[!(packages %in% installed.packages()[,&quot;Package&quot;])]
+if(length(new.packages)) install.packages(new.packages)
+lapply(packages, require, character.only = TRUE)</code></pre>
+</div>
+<div id="creer-un-projet-r" class="section level2">
+<h2>Créer un projet R</h2>
+<p>Les projets RStudio facilitent la division de votre travail en plusieurs sessions, chacunes avec son propre répertoire et espace de travail, son historique et ses documents sources.</p>
+<p>Pour créer un nouveau projet, utiliser la commande Créer un projet (disponible dans le menu Projets et dans la barre d’outils globale)</p>
+<div class="figure">
+<img src="www/nouveauDossier.JPG" />
+
+</div>
+<div class="figure">
+<img src="www/emptyProject.JPG" />
+
+</div>
+<div class="figure">
+<img src="www/createProject.JPG" />
+
+</div>
+<p>Créer trois nouveaux codes <code>R</code> :</p>
+<ul>
+<li><code>ui.R</code></li>
+<li><code>server.R</code></li>
+<li><code>global.R</code></li>
+</ul>
+<p>Créer un dossier <code>data</code> :</p>
+<ul>
+<li>Ajouter les fichiers disponibles <a href="https://www.dropbox.com/sh/3gdkys1crei88rb/AADc95kLrAU-hQYPGHPIxl-Ma?dl=0">ici</a>
+<ul>
+<li><code>USpop.csv</code></li>
+<li><code>owl.JPG</code></li>
+<li><code>paragraphe.Rmd</code></li>
+</ul></li>
+</ul>
+<p>Le dossier doit alors ressembler à cela :</p>
+<div class="figure">
+<img src="www/repository.JPG" />
+
+</div>
+</div>
+<div id="initialiser-le-dashboard" class="section level2 tabset tabset-fade tabset-pills">
+<h2>Initialiser le dashboard</h2>
+<div class="figure">
+<img src="www/initDashboard.JPG" />
+
+</div>
+<div id="ui.r" class="section level3">
+<h3>ui.R</h3>
+<pre class="r"><code># ----- source global variables/packages dependencies
+source(&quot;global.R&quot;)
+
+# ----- Header
+header &lt;- dashboardHeader(title = &quot;Dashboard R&quot;
+
+)
+
+# ----- SideBar
+
+sidebar &lt;- dashboardSidebar(
+  
+)
+
+# ----- Body 
+
+body &lt;- dashboardBody(
+  
+)
+
+# ----- run ui
+
+ui &lt;- dashboardPage(header = header,sidebar = sidebar,body = body)</code></pre>
+</div>
+<div id="server.r" class="section level3">
+<h3>server.R</h3>
+<pre class="r"><code># ----- source global variables/packages dependencies
+source(&quot;global.R&quot;)
+
+# ----- serverSide
+
+server &lt;- function(input, output) { 
+  
+}</code></pre>
+</div>
+<div id="global.r" class="section level3">
+<h3>global.R</h3>
+<pre class="r"><code># ----- Load/Install Packages
+packages&lt;-c(&quot;shiny&quot;,&quot;shinydashboard&quot;)
+new.packages &lt;- packages[!(packages %in% installed.packages()[,&quot;Package&quot;])]
+if(length(new.packages)) install.packages(new.packages)
+lapply(packages, require, character.only = TRUE)
+
+# ----- Load UScity data
+USpop &lt;- read.csv(file = &quot;data/USpop.csv&quot;,sep=&quot;;&quot;,stringsAsFactors = F)
+
+# ----- Format numbers
+compress &lt;- function(x, round.by = 1) {
+  div &lt;- findInterval(as.numeric(gsub(&quot;\\,&quot;, &quot;&quot;, x)), c(1, 1e3, 1e6, 1e9, 1e12) )
+  paste(round( as.numeric(gsub(&quot;\\,&quot;,&quot;&quot;,x))/10^(3*(div-1)), round.by), c(&quot;&quot;,&quot;K&quot;,&quot;M&quot;,&quot;B&quot;,&quot;T&quot;)[div], sep = &quot;&quot; )
+}</code></pre>
+</div>
+</div>
+<div id="accueil" class="section level2">
+<h2>Accueil</h2>
+<div class="figure">
+<img src="www/Accueil.JPG" />
+
+</div>
+</div>
+<div id="page1" class="section level2">
+<h2>Page1</h2>
+<div class="figure">
+<img src="www/page1.JPG" />
+
+</div>
+</div>
+<div id="page2" class="section level2">
+<h2>Page2</h2>
+<div class="figure">
+<img src="www/page2.JPG" />
+
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
