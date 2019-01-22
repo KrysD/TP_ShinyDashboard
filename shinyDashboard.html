@@ -4,7 +4,7 @@
 
 <head>
 
-<meta charset="utf-8">
+<meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 
@@ -24,25 +24,55 @@
 <script src="libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="libs/navigation-1.1/tabsets.js"></script>
 <script src="libs/navigation-1.1/codefolding.js"></script>
-<link href="libs/highlightjs-1.1/default.css" rel="stylesheet" />
-<script src="libs/highlightjs-1.1/highlight.js"></script>
 <link href="libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
 <script src="libs/pagedtable-1.1/js/pagedtable.js"></script>
 
+
 <style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; background-color: #dddddd; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { font-weight: bold; } /* Keyword */
+code > span.dt { color: #800000; } /* DataType */
+code > span.dv { color: #0000ff; } /* DecVal */
+code > span.bn { color: #0000ff; } /* BaseN */
+code > span.fl { color: #800080; } /* Float */
+code > span.ch { color: #ff00ff; } /* Char */
+code > span.st { color: #dd0000; } /* String */
+code > span.co { color: #808080; font-style: italic; } /* Comment */
+code > span.al { color: #00ff00; font-weight: bold; } /* Alert */
+code > span.fu { color: #000080; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #ff0000; font-weight: bold; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #ff00ff; } /* SpecialChar */
+code > span.vs { color: #dd0000; } /* VerbatimString */
+code > span.ss { color: #dd0000; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { } /* Variable */
+code > span.cf { } /* ControlFlow */
+code > span.op { } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { font-weight: bold; } /* Preprocessor */
+code > span.at { } /* Attribute */
+code > span.do { color: #808080; font-style: italic; } /* Documentation */
+code > span.an { color: #808080; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #808080; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #808080; font-weight: bold; font-style: italic; } /* Information */
+div.sourceCode {
+  overflow-x: visible;
+}
+</style>
 <style type="text/css">
   pre:not([class]) {
     background-color: white;
   }
 </style>
-<script type="text/javascript">
-if (window.hljs && document.readyState && document.readyState === "complete") {
-   window.setTimeout(function() {
-      hljs.initHighlighting();
-   }, 0);
-}
-</script>
-
 
 
 <style type="text/css">
@@ -241,11 +271,11 @@ div.tocify {
 <div id="installer-les-packages" class="section level2">
 <h2>Installer les packages</h2>
 <p>Afin de faciliter la poursuite du TD lancer le code ci-dessous afin de charger ou installer les packages.</p>
-<pre class="r"><code># ----- Load/Install Packages
-packages&lt;-c(&quot;shiny&quot;,&quot;shinydashboard&quot;)
-new.packages &lt;- packages[!(packages %in% installed.packages()[,&quot;Package&quot;])]
-if(length(new.packages)) install.packages(new.packages)
-lapply(packages, require, character.only = TRUE)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># ----- Load/Install Packages</span>
+packages&lt;-<span class="kw">c</span>(<span class="st">&quot;shiny&quot;</span>,<span class="st">&quot;shinydashboard&quot;</span>)
+new.packages &lt;-<span class="st"> </span>packages[!(packages %in%<span class="st"> </span><span class="kw">installed.packages</span>()[,<span class="st">&quot;Package&quot;</span>])]
+if(<span class="kw">length</span>(new.packages)) <span class="kw">install.packages</span>(new.packages)
+<span class="kw">lapply</span>(packages, require, <span class="dt">character.only =</span> <span class="ot">TRUE</span>)</code></pre></div>
 </div>
 <div id="creer-un-projet-r" class="section level2">
 <h2>Créer un projet R</h2>
@@ -269,12 +299,12 @@ lapply(packages, require, character.only = TRUE)</code></pre>
 <li><code>server.R</code></li>
 <li><code>global.R</code></li>
 </ul>
-<p>Créer un dossier <code>data</code> :</p>
+<p>Créer un nouveau dossier <code>data</code>.</p>
+<p>Télécharger les fichiers disponibles <a href="https://www.dropbox.com/sh/3gdkys1crei88rb/AADc95kLrAU-hQYPGHPIxl-Ma?dl=0">ici</a></p>
 <ul>
-<li>Ajouter les fichiers disponibles <a href="https://www.dropbox.com/sh/3gdkys1crei88rb/AADc95kLrAU-hQYPGHPIxl-Ma?dl=0">ici</a>
+<li>Ajouter les fichiers ci-dessous dans le dossier <code>data</code>:
 <ul>
 <li><code>USpop.csv</code></li>
-<li><code>owl.JPG</code></li>
 <li><code>paragraphe.Rmd</code></li>
 </ul></li>
 </ul>
@@ -292,75 +322,75 @@ lapply(packages, require, character.only = TRUE)</code></pre>
 </div>
 <div id="ui.r" class="section level3">
 <h3>ui.R</h3>
-<pre class="r"><code># ----- source global variables/packages dependencies
-source(&quot;global.R&quot;)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># ----- source global variables/packages dependencies</span>
+<span class="kw">source</span>(<span class="st">&quot;global.R&quot;</span>)
 
-# ----- Header
-header &lt;- dashboardHeader(title = &quot;Dashboard R&quot;
+<span class="co"># ----- Header</span>
+header &lt;-<span class="st"> </span><span class="kw">dashboardHeader</span>(<span class="dt">title =</span> <span class="st">&quot;Dashboard R&quot;</span>
 
 )
 
-# ----- SideBar
+<span class="co"># ----- SideBar</span>
 
-sidebar &lt;- dashboardSidebar(
+sidebar &lt;-<span class="st"> </span><span class="kw">dashboardSidebar</span>(
   
 )
 
-# ----- Body 
+<span class="co"># ----- Body </span>
 
-body &lt;- dashboardBody(
+body &lt;-<span class="st"> </span><span class="kw">dashboardBody</span>(
   
 )
 
-# ----- run ui
+<span class="co"># ----- run ui</span>
 
-ui &lt;- dashboardPage(header = header,sidebar = sidebar,body = body)</code></pre>
+ui &lt;-<span class="st"> </span><span class="kw">dashboardPage</span>(<span class="dt">header =</span> header,<span class="dt">sidebar =</span> sidebar,<span class="dt">body =</span> body)</code></pre></div>
 </div>
 <div id="server.r" class="section level3">
 <h3>server.R</h3>
-<pre class="r"><code># ----- source global variables/packages dependencies
-source(&quot;global.R&quot;)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># ----- source global variables/packages dependencies</span>
+<span class="kw">source</span>(<span class="st">&quot;global.R&quot;</span>)
 
-# ----- serverSide
+<span class="co"># ----- serverSide</span>
 
-server &lt;- function(input, output) { 
+server &lt;-<span class="st"> </span>function(input, output) { 
   
-}</code></pre>
+}</code></pre></div>
 </div>
 <div id="global.r" class="section level3">
 <h3>global.R</h3>
-<pre class="r"><code># ----- Load/Install Packages
-packages&lt;-c(&quot;shiny&quot;,&quot;shinydashboard&quot;)
-new.packages &lt;- packages[!(packages %in% installed.packages()[,&quot;Package&quot;])]
-if(length(new.packages)) install.packages(new.packages)
-lapply(packages, require, character.only = TRUE)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># ----- Load/Install Packages</span>
+packages&lt;-<span class="kw">c</span>(<span class="st">&quot;shiny&quot;</span>,<span class="st">&quot;shinydashboard&quot;</span>)
+new.packages &lt;-<span class="st"> </span>packages[!(packages %in%<span class="st"> </span><span class="kw">installed.packages</span>()[,<span class="st">&quot;Package&quot;</span>])]
+if(<span class="kw">length</span>(new.packages)) <span class="kw">install.packages</span>(new.packages)
+<span class="kw">lapply</span>(packages, require, <span class="dt">character.only =</span> <span class="ot">TRUE</span>)
 
-# ----- Load UScity data
-USpop &lt;- read.csv(file = &quot;data/USpop.csv&quot;,sep=&quot;;&quot;,stringsAsFactors = F)
+<span class="co"># ----- Load UScity data</span>
+USpop &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="dt">file =</span> <span class="st">&quot;data/USpop.csv&quot;</span>,<span class="dt">sep=</span><span class="st">&quot;;&quot;</span>,<span class="dt">stringsAsFactors =</span> F)
 
-# ----- Format numbers
-compress &lt;- function(x, round.by = 1) {
-  div &lt;- findInterval(as.numeric(gsub(&quot;\\,&quot;, &quot;&quot;, x)), c(1, 1e3, 1e6, 1e9, 1e12) )
-  paste(round( as.numeric(gsub(&quot;\\,&quot;,&quot;&quot;,x))/10^(3*(div-1)), round.by), c(&quot;&quot;,&quot;K&quot;,&quot;M&quot;,&quot;B&quot;,&quot;T&quot;)[div], sep = &quot;&quot; )
-}</code></pre>
+<span class="co"># ----- Format numbers</span>
+compress &lt;-<span class="st"> </span>function(x, <span class="dt">round.by =</span> <span class="dv">1</span>) {
+  div &lt;-<span class="st"> </span><span class="kw">findInterval</span>(<span class="kw">as.numeric</span>(<span class="kw">gsub</span>(<span class="st">&quot;</span><span class="ch">\\</span><span class="st">,&quot;</span>, <span class="st">&quot;&quot;</span>, x)), <span class="kw">c</span>(<span class="dv">1</span>, <span class="fl">1e3</span>, <span class="fl">1e6</span>, <span class="fl">1e9</span>, <span class="fl">1e12</span>) )
+  <span class="kw">paste</span>(<span class="kw">round</span>( <span class="kw">as.numeric</span>(<span class="kw">gsub</span>(<span class="st">&quot;</span><span class="ch">\\</span><span class="st">,&quot;</span>,<span class="st">&quot;&quot;</span>,x))/<span class="dv">10</span>^(<span class="dv">3</span>*(div<span class="dv">-1</span>)), round.by), <span class="kw">c</span>(<span class="st">&quot;&quot;</span>,<span class="st">&quot;K&quot;</span>,<span class="st">&quot;M&quot;</span>,<span class="st">&quot;B&quot;</span>,<span class="st">&quot;T&quot;</span>)[div], <span class="dt">sep =</span> <span class="st">&quot;&quot;</span> )
+}</code></pre></div>
 </div>
 </div>
-<div id="accueil" class="section level2">
-<h2>Accueil</h2>
+<div id="acceuil" class="section level2">
+<h2>Acceuil</h2>
 <div class="figure">
 <img src="www/Accueil.JPG" />
 
 </div>
 </div>
-<div id="page1" class="section level2">
-<h2>Page1</h2>
+<div id="page-1" class="section level2">
+<h2>Page 1</h2>
 <div class="figure">
 <img src="www/page1.JPG" />
 
 </div>
 </div>
-<div id="page2" class="section level2">
-<h2>Page2</h2>
+<div id="page-2" class="section level2">
+<h2>Page 2</h2>
 <div class="figure">
 <img src="www/page2.JPG" />
 
@@ -392,7 +422,7 @@ $(document).ready(function () {
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>

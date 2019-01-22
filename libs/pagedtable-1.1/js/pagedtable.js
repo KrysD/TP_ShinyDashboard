@@ -357,7 +357,11 @@ var PagedTable = function (pagedTable) {
 
     me.calculateWidths = function(measures) {
       columns.forEach(function(column) {
-        var maxChars = column.label.toString().length;
+        var maxChars = Math.max(
+          column.label.toString().length,
+          column.type.toString().length
+        );
+
         for (var idxRow = 0; idxRow < Math.min(widthsLookAhead, data.length); idxRow++) {
           maxChars = Math.max(maxChars, data[idxRow][column.name.toString()].length);
         }
@@ -893,16 +897,12 @@ var PagedTable = function (pagedTable) {
     me.render();
 
     // retry seizing columns later if the host has not provided space
-    var retries = 100;
     function retryFit() {
-      retries = retries - 1;
-      if (retries > 0) {
-        if (tableDiv.clientWidth <= 0) {
-          setTimeout(retryFit, 100);
-        } else {
-          me.render();
-          triggerOnChange();
-        }
+      if (tableDiv.clientWidth <= 0) {
+        setTimeout(retryFit, 100);
+      } else {
+        me.render();
+        triggerOnChange();
       }
     }
     if (tableDiv.clientWidth <= 0) {
@@ -1122,7 +1122,7 @@ var PagedTableDoc;
   PagedTableDoc.initAll = function() {
     allPagedTables = [];
 
-    var pagedTables = [].slice.call(document.querySelectorAll('[data-pagedtable="false"]'));
+    var pagedTables = [].slice.call(document.querySelectorAll('[data-pagedtable="false"],[data-pagedtable=""]'));
     pagedTables.forEach(function(pagedTable, idx) {
       pagedTable.setAttribute("data-pagedtable", "true");
       pagedTable.setAttribute("pagedtable-page", 0);
