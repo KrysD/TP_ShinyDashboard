@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>TP R-shinyDashboard</title>
+
+<script src="libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="libs/navigation-1.1/tabsets.js"></script>
+<script src="libs/navigation-1.1/codefolding.js"></script>
+<link href="libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="libs/pagedtable-1.1/js/pagedtable.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; background-color: #dddddd; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { font-weight: bold; } /* Keyword */
+code > span.dt { color: #800000; } /* DataType */
+code > span.dv { color: #0000ff; } /* DecVal */
+code > span.bn { color: #0000ff; } /* BaseN */
+code > span.fl { color: #800080; } /* Float */
+code > span.ch { color: #ff00ff; } /* Char */
+code > span.st { color: #dd0000; } /* String */
+code > span.co { color: #808080; font-style: italic; } /* Comment */
+code > span.al { color: #00ff00; font-weight: bold; } /* Alert */
+code > span.fu { color: #000080; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #ff0000; font-weight: bold; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #ff00ff; } /* SpecialChar */
+code > span.vs { color: #dd0000; } /* VerbatimString */
+code > span.ss { color: #dd0000; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { } /* Variable */
+code > span.cf { } /* ControlFlow */
+code > span.op { } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { font-weight: bold; } /* Preprocessor */
+code > span.at { } /* Attribute */
+code > span.do { color: #808080; font-style: italic; } /* Documentation */
+code > span.an { color: #808080; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #808080; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #808080; font-weight: bold; font-style: italic; } /* Information */
+div.sourceCode {
+  overflow-x: visible;
+}
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="www\style.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">TP R-<a href="https://rstudio.github.io/shinydashboard/">shinyDashboard</a></h1>
+
+</div>
+
+
+<div id="installer-les-packages" class="section level2">
+<h2>Installer les packages</h2>
+<p>Afin de faciliter la poursuite du TD lancer le code ci-dessous afin de charger ou installer les packages.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># ----- Load/Install Packages</span>
+packages&lt;-<span class="kw">c</span>(<span class="st">&quot;shiny&quot;</span>,<span class="st">&quot;shinydashboard&quot;</span>)
+new.packages &lt;-<span class="st"> </span>packages[!(packages %in%<span class="st"> </span><span class="kw">installed.packages</span>()[,<span class="st">&quot;Package&quot;</span>])]
+if(<span class="kw">length</span>(new.packages)) <span class="kw">install.packages</span>(new.packages)
+<span class="kw">lapply</span>(packages, require, <span class="dt">character.only =</span> <span class="ot">TRUE</span>)</code></pre></div>
+</div>
+<div id="creer-un-projet-r" class="section level2">
+<h2>Créer un projet R</h2>
+<p>Les projets RStudio facilitent la division de votre travail en plusieurs sessions, chacunes avec son propre répertoire et espace de travail, son historique et ses documents sources.</p>
+<p>Pour créer un nouveau projet, utiliser la commande Créer un projet (disponible dans le menu Projets et dans la barre d’outils globale)</p>
+<div class="figure">
+<img src="www/nouveauDossier.JPG" />
+
+</div>
+<div class="figure">
+<img src="www/emptyProject.JPG" />
+
+</div>
+<div class="figure">
+<img src="www/createProject.JPG" />
+
+</div>
+<p>Créer trois nouveaux codes <code>R</code> :</p>
+<ul>
+<li><code>ui.R</code></li>
+<li><code>server.R</code></li>
+<li><code>global.R</code></li>
+</ul>
+<p>Créer un nouveau dossier <code>data</code>.</p>
+<p>Télécharger les fichiers disponibles <a href="https://www.dropbox.com/sh/3gdkys1crei88rb/AADc95kLrAU-hQYPGHPIxl-Ma?dl=0">ici</a></p>
+<ul>
+<li>Ajouter les fichiers ci-dessous dans le dossier <code>data</code>:
+<ul>
+<li><code>USpop.csv</code></li>
+<li><code>paragraphe.Rmd</code></li>
+</ul></li>
+</ul>
+<p>Le dossier doit alors ressembler à cela :</p>
+<div class="figure">
+<img src="www/repository.JPG" />
+
+</div>
+</div>
+<div id="initialiser-le-dashboard" class="section level2 tabset tabset-fade tabset-pills">
+<h2>Initialiser le dashboard</h2>
+<div class="figure">
+<img src="www/initDashboard.JPG" />
+
+</div>
+<div id="ui.r" class="section level3">
+<h3>ui.R</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># ----- source global variables/packages dependencies</span>
+<span class="kw">source</span>(<span class="st">&quot;global.R&quot;</span>)
+
+<span class="co"># ----- Header</span>
+header &lt;-<span class="st"> </span><span class="kw">dashboardHeader</span>(<span class="dt">title =</span> <span class="st">&quot;Dashboard R&quot;</span>)
+
+<span class="co"># ----- SideBar</span>
+
+sidebar &lt;-<span class="st"> </span><span class="kw">dashboardSidebar</span>(
+  <span class="kw">sidebarMenu</span>(
+    <span class="kw">menuItem</span>(<span class="st">&quot;Accueils&quot;</span>, <span class="dt">tabName =</span> <span class="st">&quot;home&quot;</span>, <span class="dt">icon =</span> <span class="kw">icon</span>(<span class="st">&quot;home&quot;</span>,<span class="dt">lib =</span> <span class="st">&quot;font-awesome&quot;</span>)),
+    <span class="kw">menuItem</span>(<span class="st">&quot;Page1&quot;</span>, <span class="dt">tabName =</span> <span class="st">&quot;page1&quot;</span>, <span class="dt">icon =</span> <span class="kw">icon</span>(<span class="st">&quot;bar-chart&quot;</span>,<span class="dt">lib =</span> <span class="st">&quot;font-awesome&quot;</span>)),
+    <span class="kw">menuItem</span>(<span class="st">&quot;Page2&quot;</span>,<span class="dt">tabName =</span> <span class="st">&quot;page2&quot;</span>,<span class="dt">icon =</span> <span class="kw">icon</span>(<span class="st">&quot;map&quot;</span>,<span class="dt">lib =</span> <span class="st">&quot;font-awesome&quot;</span>))
+  )
+)
+
+<span class="co"># ----- Body </span>
+
+body &lt;-<span class="st"> </span><span class="kw">dashboardBody</span>(
+  <span class="kw">tabItems</span>(
+    <span class="kw">tabItem</span>(<span class="dt">tabName =</span> <span class="st">&quot;home&quot;</span>,
+            <span class="kw">includeMarkdown</span>(<span class="st">&quot;data/paragraphe.Rmd&quot;</span>)
+    ),
+    <span class="kw">tabItem</span>(<span class="dt">tabName =</span> <span class="st">&quot;page1&quot;</span>,
+      <span class="kw">fluidRow</span>(
+       <span class="kw">box</span>(<span class="dt">title =</span> <span class="st">&quot;Paramètres&quot;</span>,<span class="dt">width =</span> <span class="dv">4</span>,<span class="dt">solidHeader =</span> T, <span class="dt">status =</span> <span class="st">&quot;primary&quot;</span>,
+           <span class="kw">sliderInput</span>(<span class="dt">inputId =</span> <span class="st">&quot;slider&quot;</span>,
+                       <span class="dt">label =</span> <span class="st">&quot;Taille de l&#39;échantillon&quot;</span>,
+                       <span class="dt">min =</span> <span class="dv">50</span>,<span class="dt">max =</span> <span class="dv">500</span>,<span class="dt">value =</span> <span class="dv">100</span>,<span class="dt">step =</span> <span class="dv">10</span>,
+                       <span class="dt">width =</span> <span class="st">&quot;100%&quot;</span>),
+           <span class="kw">selectInput</span>(<span class="dt">inputId =</span> <span class="st">&quot;selectColor&quot;</span>,
+                       <span class="dt">label =</span> <span class="st">&quot;Couleur&quot;</span>,
+                       <span class="dt">choices =</span> <span class="kw">c</span>(<span class="st">&quot;Bleue&quot;</span> =<span class="st"> &quot;#3C8DBC&quot;</span>,<span class="st">&quot;Rouge&quot;</span> =<span class="st"> &quot;#DD4B39&quot;</span>,<span class="st">&quot;Jaune&quot;</span> =<span class="st"> &quot;#F39C12&quot;</span>),
+                       <span class="dt">selected =</span> <span class="st">&quot;Bleue&quot;</span>),
+           <span class="kw">textInput</span>(<span class="dt">inputId =</span> <span class="st">&quot;plotName&quot;</span>,<span class="dt">label =</span> <span class="st">&quot;Titre&quot;</span>,<span class="dt">width =</span> <span class="st">&quot;50%&quot;</span> )
+           ),
+       <span class="kw">box</span>(<span class="dt">width =</span> <span class="dv">8</span>,
+           <span class="kw">plotOutput</span>(<span class="st">&quot;histPlot&quot;</span>))
+      )
+    ),
+    <span class="kw">tabItem</span>(<span class="dt">tabName =</span> <span class="st">&quot;page2&quot;</span>,
+            <span class="kw">fluidRow</span>(
+              <span class="kw">box</span>(<span class="dt">title =</span> <span class="st">&quot;Selection&quot;</span>,<span class="dt">width =</span> <span class="dv">4</span>,<span class="dt">solidHeader =</span> T,<span class="dt">status =</span> <span class="st">&quot;primary&quot;</span>,
+                  <span class="kw">selectInput</span>(<span class="dt">inputId =</span> <span class="st">&quot;selectCountry&quot;</span>,
+                              <span class="dt">label =</span> <span class="st">&quot;Pays&quot;</span>,
+                              <span class="dt">choices =</span> <span class="kw">unique</span>(USpop$State)),
+                  <span class="kw">uiOutput</span>(<span class="st">&quot;cityNames&quot;</span>)
+                  )
+            ),
+            <span class="kw">fluidRow</span>(
+              <span class="kw">uiOutput</span>(<span class="st">&quot;boxCity&quot;</span>)
+            )
+    )
+  )
+)
+
+<span class="co"># ----- run ui</span>
+
+ui &lt;-<span class="st"> </span><span class="kw">dashboardPage</span>(<span class="dt">header =</span> header,<span class="dt">sidebar =</span> sidebar,<span class="dt">body =</span> body)</code></pre></div>
+</div>
+<div id="server.r" class="section level3">
+<h3>server.R</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># ----- source global variables/packages dependencies</span>
+<span class="kw">source</span>(<span class="st">&quot;global.R&quot;</span>)
+
+<span class="co"># ----- serverSide</span>
+
+server &lt;-<span class="st"> </span>function(input, output) { 
+  
+  reactVal &lt;-<span class="st"> </span><span class="kw">reactiveValues</span>(<span class="dt">histData=</span><span class="ot">NULL</span>,<span class="dt">selectedCities=</span><span class="ot">NULL</span>)
+  
+  <span class="co"># ----- Page1</span>
+  
+  <span class="kw">observe</span>({
+    reactVal$histData &lt;-<span class="st"> </span><span class="kw">rnorm</span>(input$slider)
+  })
+  
+  output$histPlot &lt;-<span class="st"> </span><span class="kw">renderPlot</span>({
+    <span class="co"># ----- Get the input values</span>
+    colorPlot &lt;-<span class="st"> </span>input$selectColor
+    graphicTitle &lt;-<span class="st"> </span>input$plotName
+
+    <span class="kw">hist</span>(reactVal$histData,<span class="dt">col =</span> colorPlot,<span class="dt">main =</span> graphicTitle)
+  })
+  
+  <span class="co"># ----- Page2</span>
+  output$cityNames &lt;-<span class="st"> </span><span class="kw">renderUI</span>({
+    reactVal$SelectedCities &lt;-<span class="st"> </span>USpop[USpop$State==input$selectCountry,]
+    <span class="kw">selectInput</span>(<span class="dt">inputId =</span> <span class="st">&quot;selectCity&quot;</span>,
+                <span class="dt">label =</span> <span class="st">&quot;Ville&quot;</span>,
+                <span class="dt">choices =</span> reactVal$SelectedCities$City)
+  })
+  
+  output$boxCity &lt;-<span class="st"> </span><span class="kw">renderUI</span>({
+    dataTemp &lt;-<span class="st"> </span><span class="kw">isolate</span>(reactVal$SelectedCities)
+    popSelectedCity &lt;-<span class="st"> </span>dataTemp$Pop2016[dataTemp$City==input$selectCity]
+    popMax &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="st">&quot;city&quot;</span> =<span class="st"> </span>dataTemp$City[<span class="kw">which.max</span>(dataTemp$Pop2016)],<span class="st">&quot;pop&quot;</span>=dataTemp$Pop2016[<span class="kw">which.max</span>(dataTemp$Pop2016)])
+    popMin &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="st">&quot;city&quot;</span> =<span class="st"> </span>dataTemp$City[<span class="kw">which.min</span>(dataTemp$Pop2016)],<span class="st">&quot;pop&quot;</span>=dataTemp$Pop2016[<span class="kw">which.min</span>(dataTemp$Pop2016)])
+    <span class="kw">box</span>(<span class="dt">width=</span><span class="dv">12</span>,<span class="dt">title =</span> input$selectCountry,<span class="dt">solidHeader =</span> T,<span class="dt">status =</span> <span class="st">&quot;primary&quot;</span>,<span class="dt">collapsible =</span> T,
+      <span class="kw">infoBox</span>(<span class="kw">HTML</span>(<span class="kw">sprintf</span>(<span class="st">&quot;Population &lt;b&gt;%s&lt;/b&gt;&quot;</span>,input$selectCity)), <span class="kw">compress</span>(popSelectedCity), <span class="dt">icon =</span> <span class="kw">icon</span>(<span class="st">&quot;users&quot;</span>), <span class="dt">fill =</span> <span class="ot">TRUE</span>),
+      <span class="kw">infoBox</span>(<span class="kw">HTML</span>(<span class="kw">sprintf</span>(<span class="st">&quot;Population maximale &lt;b&gt;%s&lt;/b&gt;&quot;</span>,popMax$city)), <span class="kw">compress</span>(popMax$pop), <span class="dt">icon =</span> <span class="kw">icon</span>(<span class="st">&quot;arrow-up&quot;</span>), <span class="dt">fill =</span> <span class="ot">TRUE</span>,<span class="dt">color =</span> <span class="st">&quot;red&quot;</span>),
+      <span class="kw">infoBox</span>(<span class="kw">HTML</span>(<span class="kw">sprintf</span>(<span class="st">&quot;Population minimale &lt;b&gt;%s&lt;/b&gt;&quot;</span>,popMin$city)), <span class="kw">compress</span>(popMin$pop), <span class="dt">icon =</span> <span class="kw">icon</span>(<span class="st">&quot;arrow-down&quot;</span>), <span class="dt">fill =</span> <span class="ot">TRUE</span>,<span class="dt">color =</span> <span class="st">&quot;green&quot;</span>)
+    )
+
+  })
+}</code></pre></div>
+</div>
+<div id="global.r" class="section level3">
+<h3>global.R</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># ----- Load/Install Packages</span>
+packages&lt;-<span class="kw">c</span>(<span class="st">&quot;shiny&quot;</span>,<span class="st">&quot;shinydashboard&quot;</span>)
+new.packages &lt;-<span class="st"> </span>packages[!(packages %in%<span class="st"> </span><span class="kw">installed.packages</span>()[,<span class="st">&quot;Package&quot;</span>])]
+if(<span class="kw">length</span>(new.packages)) <span class="kw">install.packages</span>(new.packages)
+<span class="kw">lapply</span>(packages, require, <span class="dt">character.only =</span> <span class="ot">TRUE</span>)
+
+<span class="co"># ----- Load UScity data</span>
+USpop &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="dt">file =</span> <span class="st">&quot;data/USpop.csv&quot;</span>,<span class="dt">sep=</span><span class="st">&quot;;&quot;</span>,<span class="dt">stringsAsFactors =</span> F)
+
+<span class="co"># ----- Format numbers</span>
+compress &lt;-<span class="st"> </span>function(x, <span class="dt">round.by =</span> <span class="dv">1</span>) {
+  div &lt;-<span class="st"> </span><span class="kw">findInterval</span>(<span class="kw">as.numeric</span>(<span class="kw">gsub</span>(<span class="st">&quot;</span><span class="ch">\\</span><span class="st">,&quot;</span>, <span class="st">&quot;&quot;</span>, x)), <span class="kw">c</span>(<span class="dv">1</span>, <span class="fl">1e3</span>, <span class="fl">1e6</span>, <span class="fl">1e9</span>, <span class="fl">1e12</span>) )
+  <span class="kw">paste</span>(<span class="kw">round</span>( <span class="kw">as.numeric</span>(<span class="kw">gsub</span>(<span class="st">&quot;</span><span class="ch">\\</span><span class="st">,&quot;</span>,<span class="st">&quot;&quot;</span>,x))/<span class="dv">10</span>^(<span class="dv">3</span>*(div<span class="dv">-1</span>)), round.by), <span class="kw">c</span>(<span class="st">&quot;&quot;</span>,<span class="st">&quot;K&quot;</span>,<span class="st">&quot;M&quot;</span>,<span class="st">&quot;B&quot;</span>,<span class="st">&quot;T&quot;</span>)[div], <span class="dt">sep =</span> <span class="st">&quot;&quot;</span> )
+}</code></pre></div>
+</div>
+</div>
+<div id="acceuil" class="section level2">
+<h2>Acceuil</h2>
+<div class="figure">
+<img src="www/Accueil.JPG" />
+
+</div>
+</div>
+<div id="page-1" class="section level2">
+<h2>Page 1</h2>
+<div class="figure">
+<img src="www/page1.JPG" />
+
+</div>
+</div>
+<div id="page-2" class="section level2">
+<h2>Page 2</h2>
+<div class="figure">
+<img src="www/page2.JPG" />
+
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
