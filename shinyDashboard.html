@@ -326,20 +326,56 @@ if(<span class="kw">length</span>(new.packages)) <span class="kw">install.packag
 <span class="kw">source</span>(<span class="st">&quot;global.R&quot;</span>)
 
 <span class="co"># ----- Header</span>
-header &lt;-<span class="st"> </span><span class="kw">dashboardHeader</span>(<span class="dt">title =</span> <span class="st">&quot;Dashboard R&quot;</span>
-
-)
+header &lt;-<span class="st"> </span><span class="kw">dashboardHeader</span>(<span class="dt">title =</span> <span class="st">&quot;Dashboard R&quot;</span>)
 
 <span class="co"># ----- SideBar</span>
 
 sidebar &lt;-<span class="st"> </span><span class="kw">dashboardSidebar</span>(
-  
+  <span class="kw">sidebarMenu</span>(
+    <span class="kw">menuItem</span>(<span class="st">&quot;Accueils&quot;</span>, <span class="dt">tabName =</span> <span class="st">&quot;home&quot;</span>, <span class="dt">icon =</span> <span class="kw">icon</span>(<span class="st">&quot;home&quot;</span>,<span class="dt">lib =</span> <span class="st">&quot;font-awesome&quot;</span>)),
+    <span class="kw">menuItem</span>(<span class="st">&quot;Page1&quot;</span>, <span class="dt">tabName =</span> <span class="st">&quot;page1&quot;</span>, <span class="dt">icon =</span> <span class="kw">icon</span>(<span class="st">&quot;bar-chart&quot;</span>,<span class="dt">lib =</span> <span class="st">&quot;font-awesome&quot;</span>)),
+    <span class="kw">menuItem</span>(<span class="st">&quot;Page2&quot;</span>,<span class="dt">tabName =</span> <span class="st">&quot;page2&quot;</span>,<span class="dt">icon =</span> <span class="kw">icon</span>(<span class="st">&quot;map&quot;</span>,<span class="dt">lib =</span> <span class="st">&quot;font-awesome&quot;</span>))
+  )
 )
 
 <span class="co"># ----- Body </span>
 
 body &lt;-<span class="st"> </span><span class="kw">dashboardBody</span>(
-  
+  <span class="kw">tabItems</span>(
+    <span class="kw">tabItem</span>(<span class="dt">tabName =</span> <span class="st">&quot;home&quot;</span>,
+            <span class="kw">includeMarkdown</span>(<span class="st">&quot;data/paragraphe.Rmd&quot;</span>)
+    ),
+    <span class="kw">tabItem</span>(<span class="dt">tabName =</span> <span class="st">&quot;page1&quot;</span>,
+      <span class="kw">fluidRow</span>(
+       <span class="kw">box</span>(<span class="dt">title =</span> <span class="st">&quot;Paramètres&quot;</span>,<span class="dt">width =</span> <span class="dv">4</span>,<span class="dt">solidHeader =</span> T, <span class="dt">status =</span> <span class="st">&quot;primary&quot;</span>,
+           <span class="kw">sliderInput</span>(<span class="dt">inputId =</span> <span class="st">&quot;slider&quot;</span>,
+                       <span class="dt">label =</span> <span class="st">&quot;Taille de l&#39;échantillon&quot;</span>,
+                       <span class="dt">min =</span> <span class="dv">50</span>,<span class="dt">max =</span> <span class="dv">500</span>,<span class="dt">value =</span> <span class="dv">100</span>,<span class="dt">step =</span> <span class="dv">10</span>,
+                       <span class="dt">width =</span> <span class="st">&quot;100%&quot;</span>),
+           <span class="kw">selectInput</span>(<span class="dt">inputId =</span> <span class="st">&quot;selectColor&quot;</span>,
+                       <span class="dt">label =</span> <span class="st">&quot;Couleur&quot;</span>,
+                       <span class="dt">choices =</span> <span class="kw">c</span>(<span class="st">&quot;Bleue&quot;</span> =<span class="st"> &quot;#3C8DBC&quot;</span>,<span class="st">&quot;Rouge&quot;</span> =<span class="st"> &quot;#DD4B39&quot;</span>,<span class="st">&quot;Jaune&quot;</span> =<span class="st"> &quot;#F39C12&quot;</span>),
+                       <span class="dt">selected =</span> <span class="st">&quot;Bleue&quot;</span>),
+           <span class="kw">textInput</span>(<span class="dt">inputId =</span> <span class="st">&quot;plotName&quot;</span>,<span class="dt">label =</span> <span class="st">&quot;Titre&quot;</span>,<span class="dt">width =</span> <span class="st">&quot;50%&quot;</span> )
+           ),
+       <span class="kw">box</span>(<span class="dt">width =</span> <span class="dv">8</span>,
+           <span class="kw">plotOutput</span>(<span class="st">&quot;histPlot&quot;</span>))
+      )
+    ),
+    <span class="kw">tabItem</span>(<span class="dt">tabName =</span> <span class="st">&quot;page2&quot;</span>,
+            <span class="kw">fluidRow</span>(
+              <span class="kw">box</span>(<span class="dt">title =</span> <span class="st">&quot;Selection&quot;</span>,<span class="dt">width =</span> <span class="dv">4</span>,<span class="dt">solidHeader =</span> T,<span class="dt">status =</span> <span class="st">&quot;primary&quot;</span>,
+                  <span class="kw">selectInput</span>(<span class="dt">inputId =</span> <span class="st">&quot;selectCountry&quot;</span>,
+                              <span class="dt">label =</span> <span class="st">&quot;Pays&quot;</span>,
+                              <span class="dt">choices =</span> <span class="kw">unique</span>(USpop$State)),
+                  <span class="kw">uiOutput</span>(<span class="st">&quot;cityNames&quot;</span>)
+                  )
+            ),
+            <span class="kw">fluidRow</span>(
+              <span class="kw">uiOutput</span>(<span class="st">&quot;boxCity&quot;</span>)
+            )
+    )
+  )
 )
 
 <span class="co"># ----- run ui</span>
@@ -355,6 +391,42 @@ ui &lt;-<span class="st"> </span><span class="kw">dashboardPage</span>(<span cla
 
 server &lt;-<span class="st"> </span>function(input, output) { 
   
+  reactVal &lt;-<span class="st"> </span><span class="kw">reactiveValues</span>(<span class="dt">histData=</span><span class="ot">NULL</span>,<span class="dt">selectedCities=</span><span class="ot">NULL</span>)
+  
+  <span class="co"># ----- Page1</span>
+  
+  <span class="kw">observe</span>({
+    reactVal$histData &lt;-<span class="st"> </span><span class="kw">rnorm</span>(input$slider)
+  })
+  
+  output$histPlot &lt;-<span class="st"> </span><span class="kw">renderPlot</span>({
+    <span class="co"># ----- Get the input values</span>
+    colorPlot &lt;-<span class="st"> </span>input$selectColor
+    graphicTitle &lt;-<span class="st"> </span>input$plotName
+
+    <span class="kw">hist</span>(reactVal$histData,<span class="dt">col =</span> colorPlot,<span class="dt">main =</span> graphicTitle)
+  })
+  
+  <span class="co"># ----- Page2</span>
+  output$cityNames &lt;-<span class="st"> </span><span class="kw">renderUI</span>({
+    reactVal$SelectedCities &lt;-<span class="st"> </span>USpop[USpop$State==input$selectCountry,]
+    <span class="kw">selectInput</span>(<span class="dt">inputId =</span> <span class="st">&quot;selectCity&quot;</span>,
+                <span class="dt">label =</span> <span class="st">&quot;Ville&quot;</span>,
+                <span class="dt">choices =</span> reactVal$SelectedCities$City)
+  })
+  
+  output$boxCity &lt;-<span class="st"> </span><span class="kw">renderUI</span>({
+    dataTemp &lt;-<span class="st"> </span><span class="kw">isolate</span>(reactVal$SelectedCities)
+    popSelectedCity &lt;-<span class="st"> </span>dataTemp$Pop2016[dataTemp$City==input$selectCity]
+    popMax &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="st">&quot;city&quot;</span> =<span class="st"> </span>dataTemp$City[<span class="kw">which.max</span>(dataTemp$Pop2016)],<span class="st">&quot;pop&quot;</span>=dataTemp$Pop2016[<span class="kw">which.max</span>(dataTemp$Pop2016)])
+    popMin &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="st">&quot;city&quot;</span> =<span class="st"> </span>dataTemp$City[<span class="kw">which.min</span>(dataTemp$Pop2016)],<span class="st">&quot;pop&quot;</span>=dataTemp$Pop2016[<span class="kw">which.min</span>(dataTemp$Pop2016)])
+    <span class="kw">box</span>(<span class="dt">width=</span><span class="dv">12</span>,<span class="dt">title =</span> input$selectCountry,<span class="dt">solidHeader =</span> T,<span class="dt">status =</span> <span class="st">&quot;primary&quot;</span>,<span class="dt">collapsible =</span> T,
+      <span class="kw">infoBox</span>(<span class="kw">HTML</span>(<span class="kw">sprintf</span>(<span class="st">&quot;Population &lt;b&gt;%s&lt;/b&gt;&quot;</span>,input$selectCity)), <span class="kw">compress</span>(popSelectedCity), <span class="dt">icon =</span> <span class="kw">icon</span>(<span class="st">&quot;users&quot;</span>), <span class="dt">fill =</span> <span class="ot">TRUE</span>),
+      <span class="kw">infoBox</span>(<span class="kw">HTML</span>(<span class="kw">sprintf</span>(<span class="st">&quot;Population maximale &lt;b&gt;%s&lt;/b&gt;&quot;</span>,popMax$city)), <span class="kw">compress</span>(popMax$pop), <span class="dt">icon =</span> <span class="kw">icon</span>(<span class="st">&quot;arrow-up&quot;</span>), <span class="dt">fill =</span> <span class="ot">TRUE</span>,<span class="dt">color =</span> <span class="st">&quot;red&quot;</span>),
+      <span class="kw">infoBox</span>(<span class="kw">HTML</span>(<span class="kw">sprintf</span>(<span class="st">&quot;Population minimale &lt;b&gt;%s&lt;/b&gt;&quot;</span>,popMin$city)), <span class="kw">compress</span>(popMin$pop), <span class="dt">icon =</span> <span class="kw">icon</span>(<span class="st">&quot;arrow-down&quot;</span>), <span class="dt">fill =</span> <span class="ot">TRUE</span>,<span class="dt">color =</span> <span class="st">&quot;green&quot;</span>)
+    )
+
+  })
 }</code></pre></div>
 </div>
 <div id="global.r" class="section level3">
